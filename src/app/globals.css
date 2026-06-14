@@ -29,6 +29,16 @@
   --font-mono: var(--font-ibm-plex-mono);
 }
 
+@keyframes bar {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
