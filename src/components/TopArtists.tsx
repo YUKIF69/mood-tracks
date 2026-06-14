@@ -1,13 +1,30 @@
-const artists = [
-  { rank: '01', name: 'Mac Miller', plays: 18 },
-  { rank: '02', name: 'Frank Ocean', plays: 14 },
-  { rank: '03', name: 'Radiohead', plays: 11 },
-  { rank: '04', name: 'The 1975', plays: 7 },
-];
+'use client';
+
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+
+interface Artist {
+  id: string;
+  name: string;
+  count: number;
+  image: string | null;
+}
 
 export default function TopArtists() {
+  const [artists, setArtists] = useState<Artist[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/spotify/top-artists')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.artists) setArtists(data.artists);
+        setLoading(false);
+      });
+  }, []);
+
   return (
-    <div className="bg-surface border border-line rounded-2xl p-7">
+    <div className="bg-surface border border-line rounded-2xl p-7 flex flex-col">
       <div className="flex justify-between items-baseline mb-6">
         <span className="font-mono text-[11px] uppercase tracking-wider text-text-dim">
           Top artists
@@ -19,20 +36,33 @@ export default function TopArtists() {
           see all →
         </a>
       </div>
-      <div className="flex flex-col">
-        {artists.map((a, i) => (
-          <div
-            key={a.rank}
-            className={`flex items-center gap-4 py-3.5 ${i !== artists.length - 1 ? 'border-b border-line' : ''}`}
-          >
-            <span className="font-display text-xl font-light text-text-dim w-7">{a.rank}</span>
-            <div className="flex-1 min-w-0">
-              <div className="text-sm font-medium">{a.name}</div>
+      {loading ? (
+        <div className="text-sm text-text-dim font-mono py-4">Loading...</div>
+      ) : artists.length === 0 ? (
+        <div className="text-sm text-text-dim font-mono py-4">No data yet</div>
+      ) : (
+        <div className="flex flex-col gap-3 flex-1">
+          {artists.map((a) => (
+            <div key={a.id} className="flex items-center gap-3 flex-1">
+              {a.image ? (
+                <Image
+                  src={a.image}
+                  alt={a.name}
+                  width={48}
+                  height={48}
+                  className="rounded-full flex-shrink-0 object-cover"
+                />
+              ) : (
+                <div className="w-12 h-12 rounded-full bg-surface-2 border border-line flex-shrink-0" />
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-medium">{a.name}</div>
+                <div className="font-mono text-xs text-text-dim">{a.count} plays</div>
+              </div>
             </div>
-            <span className="font-mono text-xs text-text-dim">{a.plays} plays</span>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
