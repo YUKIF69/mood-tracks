@@ -51,11 +51,7 @@ export default function MoodCard() {
     await fetch('/api/mood', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        mood,
-        note,
-        track: currentTrack,
-      }),
+      body: JSON.stringify({ mood, note }),
     });
     setSaving(false);
     setSaved(true);
