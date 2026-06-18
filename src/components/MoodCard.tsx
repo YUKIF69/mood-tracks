@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const moodWords: Record<number, string> = {
   1: 'Heavy day',
@@ -56,9 +57,10 @@ export default function MoodCard() {
     setSaving(false);
     setSaved(true);
     setNote('');
-    setTimeout(() => setSaved(false), 3000);
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   }
-
   return (
     <div className="bg-surface border border-line rounded-2xl p-7">
       <div className="flex justify-between items-baseline mb-6">
