@@ -1,30 +1,22 @@
-const entries = [
-  {
-    date: 'May 18',
-    mood: 4,
-    tracks: 'Mac Miller, Frank Ocean, Tame Impala',
-    note: 'Great day, went for a long walk and felt calm',
-  },
-  {
-    date: 'May 17',
-    mood: 5,
-    tracks: 'Frank Ocean, Joji, The 1975',
-    note: 'Beach and good music — perfect combo',
-  },
-  {
-    date: 'May 16',
-    mood: 3,
-    tracks: 'Radiohead, The Smile',
-    note: 'Productive but a bit overwhelming',
-  },
-  {
-    date: 'May 15',
-    mood: 2,
-    tracks: 'Slipknot, Linkin Park',
-    note: 'Tough day at work, needed heavy music',
-  },
-  { date: 'May 14', mood: 2, tracks: 'Metallica, System of a Down', note: 'Feeling drained' },
-];
+'use client';
+
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+
+interface Track {
+  id: string;
+  title: string;
+  artist: string;
+  albumCover: string | null;
+}
+
+interface Entry {
+  id: string;
+  date: string;
+  mood: number;
+  note: string | null;
+  tracks: Track[];
+}
 
 function moodColor(mood: number) {
   if (mood >= 4) return 'text-accent';
@@ -32,7 +24,30 @@ function moodColor(mood: number) {
   return 'text-foreground';
 }
 
+function moodLabel(mood: number) {
+  const labels: Record<number, string> = {
+    1: 'Heavy',
+    2: 'Low',
+    3: 'Neutral',
+    4: 'Good',
+    5: 'Great',
+  };
+  return labels[mood] ?? '—';
+}
+
 export default function RecentEntries() {
+  const [entries, setEntries] = useState<Entry[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/mood/entries')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.entries) setEntries(data.entries);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div className="bg-surface border border-line rounded-2xl p-7">
       <div className="flex justify-between items-baseline mb-6">
@@ -46,21 +61,66 @@ export default function RecentEntries() {
           see all →
         </a>
       </div>
-      <div className="flex flex-col">
-        {entries.map((e, i) => (
-          <div
-            key={e.date}
-            className={`grid grid-cols-[90px_50px_1fr_1fr] items-center gap-4 py-3.5 ${
-              i !== entries.length - 1 ? 'border-b border-line' : ''
-            }`}
-          >
-            <span className="font-mono text-xs text-text-dim">{e.date}</span>
-            <span className={`font-display text-xl font-light ${moodColor(e.mood)}`}>{e.mood}</span>
-            <span className="text-sm text-text-mid truncate">{e.tracks}</span>
-            <span className="text-sm text-text-dim truncate hidden md:block">{e.note}</span>
-          </div>
-        ))}
-      </div>
+      {loading ? (
+        <div className="text-sm text-text-dim font-mono py-4">Loading...</div>
+      ) : entries.length === 0 ? (
+        <div className="text-sm text-text-dim font-mono py-4">
+          No entries yet — log your first mood above
+        </div>
+      ) : (
+        <div className="flex flex-col gap-2">
+          {entries.map((e) => (
+            <div
+              key={e.id}
+              className="flex items-center gap-4 p-4 rounded-xl bg-surface-2 border border-line hover:border-text-dim transition-colors"
+            >
+              <div className="flex flex-col items-center justify-center w-12 flex-shrink-0">
+                <span
+                  className={`font-display text-3xl font-light leading-none ${moodColor(e.mood)}`}
+                >
+                  {e.mood}
+                </span>
+                <span
+                  className={`font-mono text-[10px] uppercase tracking-wider mt-1 ${moodColor(e.mood)}`}
+                >
+                  {moodLabel(e.mood)}
+                </span>
+              </div>
+
+              <div className="w-px h-10 bg-line flex-shrink-0" />
+
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                {e.tracks.length > 0 && e.tracks[0].albumCover ? (
+                  <Image
+                    src={e.tracks[0].albumCover}
+                    alt={e.tracks[0].title}
+                    width={40}
+                    height={40}
+                    className="rounded-lg flex-shrink-0 object-cover"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-lg bg-surface border border-line flex-shrink-0" />
+                )}
+                <div className="flex-1 min-w-0">
+                  {e.tracks.length > 0 ? (
+                    <div className="text-sm font-medium truncate">
+                      {e.tracks[0].title}
+                      <span className="text-text-dim font-normal"> — {e.tracks[0].artist}</span>
+                    </div>
+                  ) : (
+                    <div className="text-sm text-text-dim">No track logged</div>
+                  )}
+                  {e.note && <div className="text-xs text-text-dim mt-0.5 truncate">{e.note}</div>}
+                </div>
+              </div>
+
+              <div className="font-mono text-xs text-text-dim flex-shrink-0">
+                {new Date(e.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
