@@ -43,7 +43,7 @@ export default function MoodCard() {
     }
 
     fetchCurrentTrack();
-    const interval = setInterval(fetchCurrentTrack, 30000);
+    const interval = setInterval(fetchCurrentTrack, 20000);
     return () => clearInterval(interval);
   }, []);
 

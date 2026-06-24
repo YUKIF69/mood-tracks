@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+import { getValidSpotifyToken } from '@/lib/spotify';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -16,17 +17,16 @@ export async function GET() {
     where: { email: session.user.email },
   });
 
-  if (!user?.spotifyAccessToken) {
-    return NextResponse.json({ error: 'Spotify not connected' }, { status: 400 });
-  }
+  if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
+
+  const token = await getValidSpotifyToken(user.id);
+  if (!token) return NextResponse.json({ playing: false });
 
   const res = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
-    headers: { Authorization: `Bearer ${user.spotifyAccessToken}` },
+    headers: { Authorization: `Bearer ${token}` },
   });
 
-  if (res.status === 204) {
-    return NextResponse.json({ playing: false });
-  }
+  if (res.status === 204) return NextResponse.json({ playing: false });
 
   const data = await res.json();
   return NextResponse.json({

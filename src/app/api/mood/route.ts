@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+import { getValidSpotifyToken } from '@/lib/spotify';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -22,13 +23,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 });
   }
 
-  // знаходимо попередній запис щоб знати з якого моменту тягнути треки
   const lastEntry = await prisma.moodEntry.findFirst({
     where: { userId: user.id },
     orderBy: { date: 'desc' },
   });
 
-  const since = lastEntry ? new Date(lastEntry.date) : new Date(Date.now() - 24 * 60 * 60 * 1000); // якщо перший запис — беремо останні 24 години
+  const since = lastEntry ? new Date(lastEntry.date) : new Date(Date.now() - 24 * 60 * 60 * 1000);
 
   let tracks: {
     title: string;
@@ -37,9 +37,11 @@ export async function POST(req: NextRequest) {
     spotifyId: string;
   }[] = [];
 
-  if (user.spotifyAccessToken) {
+  const token = await getValidSpotifyToken(user.id);
+
+  if (token) {
     const res = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=50', {
-      headers: { Authorization: `Bearer ${user.spotifyAccessToken}` },
+      headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
 

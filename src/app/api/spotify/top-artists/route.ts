@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+import { getValidSpotifyToken } from '@/lib/spotify';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -16,12 +17,13 @@ export async function GET() {
     where: { email: session.user.email },
   });
 
-  if (!user?.spotifyAccessToken) {
-    return NextResponse.json({ error: 'Spotify not connected' }, { status: 400 });
-  }
+  if (!user) return NextResponse.json({ artists: [] });
+
+  const token = await getValidSpotifyToken(user.id);
+  if (!token) return NextResponse.json({ artists: [] });
 
   const res = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=50', {
-    headers: { Authorization: `Bearer ${user.spotifyAccessToken}` },
+    headers: { Authorization: `Bearer ${token}` },
   });
 
   const data = await res.json();
@@ -41,12 +43,6 @@ export async function GET() {
   const top = Object.entries(countMap)
     .sort((a, b) => b[1].count - a[1].count)
     .slice(0, 5);
-
-  //   const ids = top.map(([id]) => id).join(',');
-  //   const artistRes = await fetch(`https://api.spotify.com/v1/artists?ids=${ids}`, {
-  //     headers: { Authorization: `Bearer ${user.spotifyAccessToken}` },
-  //   });
-  //   const artistData = await artistRes.json();
 
   const artistImages: Record<string, string> = {};
   data.items.forEach(
