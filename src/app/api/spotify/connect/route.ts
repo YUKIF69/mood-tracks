@@ -1,13 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 
 const SPOTIFY_AUTH_URL = 'https://accounts.spotify.com/authorize';
 const scopes = ['user-read-recently-played', 'user-read-currently-playing'].join(' ');
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.email) {
-    return NextResponse.redirect('http://localhost:3000');
+    return NextResponse.redirect(new URL('/', req.url));
   }
 
   const params = new URLSearchParams({
