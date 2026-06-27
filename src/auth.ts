@@ -15,7 +15,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     Google({
-      checks: [],
+      checks: ['state'],
     }),
     Spotify({
       authorization: {

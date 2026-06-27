@@ -7,6 +7,7 @@ import RecentEntries from '@/components/RecentEntries';
 import TopArtists from '@/components/TopArtists';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+import Link from 'next/link';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -86,7 +87,10 @@ export default async function Home() {
             </svg>
             Dashboard
           </div>
-          <div className="flex items-center gap-3 text-sm px-2.5 py-2.5 rounded-lg text-text-mid hover:bg-surface hover:text-foreground cursor-pointer">
+          <Link
+            href="/history"
+            className="flex items-center gap-3 text-sm px-2.5 py-2.5 rounded-lg text-text-mid hover:bg-surface hover:text-foreground cursor-pointer"
+          >
             <svg
               width="16"
               height="16"
@@ -104,8 +108,11 @@ export default async function Home() {
               />
             </svg>
             History
-          </div>
-          <div className="flex items-center gap-3 text-sm px-2.5 py-2.5 rounded-lg text-text-mid hover:bg-surface hover:text-foreground cursor-pointer">
+          </Link>
+          <Link
+            href="/insights"
+            className="flex items-center gap-3 text-sm px-2.5 py-2.5 rounded-lg text-text-mid hover:bg-surface hover:text-foreground cursor-pointer"
+          >
             <svg
               width="16"
               height="16"
@@ -121,7 +128,7 @@ export default async function Home() {
               />
             </svg>
             Insights
-          </div>
+          </Link>
           <div className="mb-4 mt-3">
             <div className="font-mono text-[11px] uppercase tracking-wider text-text-dim mb-3">
               Integrations
