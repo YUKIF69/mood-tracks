@@ -12,6 +12,7 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({ adapter });
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  trustHost: true,
   adapter: PrismaAdapter(prisma),
   providers: [
     Google({
