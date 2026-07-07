@@ -6,7 +6,7 @@ import Image from 'next/image';
 interface Artist {
   id: string;
   name: string;
-  count: number;
+  count: number | null;
   image: string | null;
 }
 
@@ -30,7 +30,7 @@ export default function TopArtists() {
           Top artists
         </span>
         <a
-          href="#"
+          href="/profile"
           className="font-mono text-xs text-text-dim underline underline-offset-4 hover:text-accent"
         >
           see all →
@@ -42,7 +42,7 @@ export default function TopArtists() {
         <div className="text-sm text-text-dim font-mono py-4">No data yet</div>
       ) : (
         <div className="flex flex-col gap-3 flex-1">
-          {artists.map((a) => (
+          {artists.map((a, i) => (
             <div key={a.id} className="flex items-center gap-3 flex-1">
               {a.image ? (
                 <Image
@@ -57,7 +57,7 @@ export default function TopArtists() {
               )}
               <div className="flex-1 min-w-0">
                 <div className="text-sm font-medium">{a.name}</div>
-                <div className="font-mono text-xs text-text-dim">{a.count} plays</div>
+                <div className="font-mono text-xs text-text-dim">#{i + 1} this month</div>
               </div>
             </div>
           ))}

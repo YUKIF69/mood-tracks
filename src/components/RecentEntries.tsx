@@ -179,7 +179,7 @@ export default function RecentEntries() {
           Recent entries
         </span>
         <a
-          href="#"
+          href="/history"
           className="font-mono text-xs text-text-dim underline underline-offset-4 hover:text-accent"
         >
           see all →

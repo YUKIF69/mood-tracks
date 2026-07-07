@@ -2,7 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 
 const SPOTIFY_AUTH_URL = 'https://accounts.spotify.com/authorize';
-const scopes = ['user-read-recently-played', 'user-read-currently-playing'].join(' ');
+
+const scopes = ['user-read-recently-played', 'user-read-currently-playing', 'user-top-read'].join(
+  ' ',
+);
 
 export async function GET(req: NextRequest) {
   const session = await auth();

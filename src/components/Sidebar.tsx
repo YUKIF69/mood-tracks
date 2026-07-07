@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { auth, signOut } from '@/auth';
+import { auth } from '@/auth';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+import ProfileMenu from './ProfileMenu';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -117,14 +118,22 @@ export default async function Sidebar({
           Integrations
         </div>
         {spotifyConnected ? (
-          <div className="flex items-center gap-3 text-sm px-2.5 py-2.5 rounded-lg text-text-mid">
+          <div className="flex items-center gap-3 text-sm px-2.5 py-2.5 rounded-lg">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="#1ED760">
               <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 01-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 11-.277-1.215c3.809-.87 7.077-.496 9.712 1.115a.622.622 0 01.207.857zm1.223-2.722a.779.779 0 01-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.779.779 0 01-.972-.519.78.78 0 01.52-.972c3.632-1.102 8.147-.568 11.233 1.328a.779.779 0 01.256 1.072zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.935.935 0 11-.543-1.79c3.532-1.072 9.404-.865 13.115 1.337a.935.935 0 01-.955 1.61z" />
             </svg>
-            <span className="text-[#1ED760] text-xs font-mono">Spotify connected</span>
+            <div className="flex-1 min-w-0">
+              <div className="text-[#1ED760] text-xs font-mono">Spotify connected</div>
+              <a
+                href="/api/spotify/disconnect"
+                className="text-[11px] font-mono text-text-dim hover:text-foreground"
+              >
+                disconnect
+              </a>
+            </div>
           </div>
         ) : (
-          <Link
+          <a
             href="/api/spotify/connect"
             className="flex items-center gap-3 text-sm px-2.5 py-2.5 rounded-lg text-text-mid hover:bg-surface hover:text-foreground"
           >
@@ -132,27 +141,12 @@ export default async function Sidebar({
               <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 01-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 11-.277-1.215c3.809-.87 7.077-.496 9.712 1.115a.622.622 0 01.207.857zm1.223-2.722a.779.779 0 01-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.779.779 0 01-.972-.519.78.78 0 01.52-.972c3.632-1.102 8.147-.568 11.233 1.328a.779.779 0 01.256 1.072zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.935.935 0 11-.543-1.79c3.532-1.072 9.404-.865 13.115 1.337a.935.935 0 01-.955 1.61z" />
             </svg>
             Connect Spotify
-          </Link>
+          </a>
         )}
       </div>
 
-      <div className="mt-auto pt-5 border-t border-line flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-full bg-surface-2 border border-line flex items-center justify-center text-xs text-text-mid flex-shrink-0">
-          {session?.user?.name?.[0] ?? 'U'}
-        </div>
-        <div>
-          <div className="text-[13px]">{session?.user?.name}</div>
-          <form
-            action={async () => {
-              'use server';
-              await signOut();
-            }}
-          >
-            <button className="text-[11px] font-mono text-text-dim hover:text-foreground">
-              sign out
-            </button>
-          </form>
-        </div>
+      <div className="mt-auto pt-5 border-t border-line">
+        <ProfileMenu name={session?.user?.name} image={session?.user?.image} />
       </div>
     </aside>
   );
