@@ -38,7 +38,7 @@ export default async function Sidebar({
         MoodTracks
       </div>
 
-      <nav className="mb-8">
+      <nav className="mb-3">
         <div className="font-mono text-[11px] uppercase tracking-wider text-text-dim mb-3">
           Menu
         </div>

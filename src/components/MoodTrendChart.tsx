@@ -26,7 +26,8 @@ export default function MoodTrendChart() {
   }, []);
 
   return (
-    <div className="bg-surface border border-line rounded-2xl p-7">
+    <div className="bg-surface border border-line rounded-2xl px-7 pt-7 pb-5">
+      {/* <div className="flex flex-col justify-center h-full"> */}
       <div className="flex justify-between items-baseline mb-6">
         <span className="font-mono text-[11px] uppercase tracking-wider text-text-dim">
           Mood trend
@@ -39,11 +40,11 @@ export default function MoodTrendChart() {
           Loading...
         </div>
       ) : data.every((d) => d.mood === null) ? (
-        <div className="h-40 flex items-center justify-center text-sm text-text-dim font-mono">
+        <div className="h-20 flex items-center justify-center text-sm text-text-dim font-mono">
           Log more moods to see your trend
         </div>
       ) : (
-        <div className="h-40">
+        <div className="h-55">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data}>
               <YAxis domain={[1, 5]} hide />
@@ -104,6 +105,7 @@ export default function MoodTrendChart() {
           </div>
         </div>
       </div>
+      {/* </div> */}
     </div>
   );
 }

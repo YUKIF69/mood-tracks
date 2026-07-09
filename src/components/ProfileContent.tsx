@@ -124,37 +124,32 @@ export default function ProfileContent({ user, session }: { user: User; session:
       {loading ? (
         <div className="text-sm text-text-dim font-mono">Loading...</div>
       ) : (
-        <div className="grid grid-cols-2 gap-8">
+        <div className="flex flex-col gap-12">
           {/* Top artists */}
           <div>
-            <div className="font-mono text-[11px] uppercase tracking-wider text-text-dim mb-6">
+            <div className="font-mono text-[14px] uppercase tracking-wider text-text-dim mb-6">
               Top artists
             </div>
-            <div className="flex flex-col gap-3">
-              {artists.map((a, i) => (
+            <div className="grid grid-cols-5 gap-4">
+              {artists.map((a) => (
                 <div
                   key={a.id}
-                  className={`flex items-center gap-4 h-16 overflow-hidden ${i !== artists.length - 1 ? 'border-b border-line' : ''}`}
+                  className="flex flex-col items-center gap-3 text-center max-w-[142px] mx-auto w-full"
                 >
-                  <span className="font-display text-xl font-light text-text-dim w-7">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
                   {a.images?.[0]?.url ? (
                     <Image
                       src={a.images[0].url}
                       alt={a.name}
-                      width={40}
-                      height={40}
-                      className="rounded-full flex-shrink-0 object-cover w-10 h-10"
+                      width={160}
+                      height={160}
+                      className="rounded-full object-cover w-full aspect-square"
                     />
                   ) : (
-                    <div className="w-11 h-11 rounded-full bg-surface-2 border border-line flex-shrink-0" />
+                    <div className="w-full aspect-square rounded-full bg-surface-2 border border-line" />
                   )}
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium truncate">{a.name}</div>
-                    {a.genres?.[0] && (
-                      <div className="text-xs font-mono text-text-dim truncate">{a.genres[0]}</div>
-                    )}
+                  <div>
+                    <div className="text-sm font-medium">{a.name}</div>
+                    <div className="text-xs font-mono text-text-dim mt-0.5">Artist</div>
                   </div>
                 </div>
               ))}
@@ -163,30 +158,24 @@ export default function ProfileContent({ user, session }: { user: User; session:
 
           {/* Top tracks */}
           <div>
-            <div className="font-mono text-[11px] uppercase tracking-wider text-text-dim mb-6">
+            <div className="font-mono text-[14px] uppercase tracking-wider text-text-dim mb-6">
               Top tracks
             </div>
-            <div className="flex flex-col gap-3">
-              {tracks.map((t, i) => (
-                <div
-                  key={t.id}
-                  className={`flex items-center gap-4 h-16 ${i !== tracks.length - 1 ? 'border-b border-line' : ''}`}
-                >
-                  <span className="font-display text-xl font-light text-text-dim w-7">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  {t.album.images?.[1]?.url ? (
+            <div className="grid grid-cols-5 gap-4">
+              {tracks.map((t) => (
+                <div key={t.id} className="flex flex-col gap-3 max-w-[142px] mx-auto w-full">
+                  {t.album.images?.[0]?.url ? (
                     <Image
-                      src={t.album.images[1].url}
+                      src={t.album.images[0].url}
                       alt={t.name}
-                      width={40}
-                      height={40}
-                      className="rounded-full flex-shrink-0 object-cover w-10 h-10"
+                      width={160}
+                      height={160}
+                      className="rounded-lg object-cover w-full aspect-square"
                     />
                   ) : (
-                    <div className="w-11 h-11 rounded-lg bg-surface-2 border border-line flex-shrink-0" />
+                    <div className="w-full aspect-square rounded-lg bg-surface-2 border border-line" />
                   )}
-                  <div className="flex-1 min-w-0">
+                  <div>
                     <div className="text-sm font-medium truncate">{t.name}</div>
                     <div className="text-xs font-mono text-text-dim truncate">
                       {t.artists.map((a) => a.name).join(', ')}

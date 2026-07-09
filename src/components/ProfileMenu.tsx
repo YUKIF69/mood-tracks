@@ -40,19 +40,24 @@ export default function ProfileMenu({ name, image }: ProfileMenuProps) {
       </button>
 
       {open && (
-        <div className="absolute bottom-full left-0 mb-2 w-full bg-surface-2 border border-line rounded-xl overflow-hidden shadow-lg z-10">
+        <div className="absolute bottom-full left-0 mb-2 w-full bg-surface border border-line rounded-xl overflow-hidden shadow-lg z-10">
           <a
             href="/profile"
-            className="block w-full text-left px-4 py-2.5 text-sm text-text-mid hover:bg-surface hover:text-foreground transition-colors"
+            className="block w-full text-left px-4 py-2.5 text-sm text-text-mid hover:bg-surface-2 hover:text-foreground transition-colors"
           >
             Profile
           </a>
-          <a className="w-full text-left px-4 py-2.5 text-sm text-text-mid hover:bg-surface hover:text-foreground transition-colors border-t border-line cursor-pointer">
+          <div className="border-t border-line" />
+          <a
+            href="#"
+            className="block w-full text-left px-4 py-2.5 text-sm text-text-mid hover:bg-surface-2 hover:text-foreground transition-colors"
+          >
             Settings
           </a>
+          <div className="border-t border-line" />
           <button
             onClick={() => signOut()}
-            className="w-full text-left px-4 py-2.5 text-sm text-text-dim hover:bg-surface hover:text-foreground transition-colors border-t border-line cursor-pointer"
+            className="w-full text-left px-4 py-2.5 text-sm text-text-dim hover:bg-surface-2 hover:text-foreground transition-colors cursor-pointer"
           >
             Log out
           </button>
