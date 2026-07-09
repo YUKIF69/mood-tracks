@@ -2,7 +2,6 @@ import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
-import Link from 'next/link';
 import Image from 'next/image';
 import Sidebar from '@/components/Sidebar';
 
@@ -34,19 +33,34 @@ export default async function InsightsPage() {
   const bestMood = totalEntries ? Math.max(...entries.map((e) => e.mood)) : null;
   const worstMood = totalEntries ? Math.min(...entries.map((e) => e.mood)) : null;
 
-  // топ артисти
-  const artistData: Record<string, { count: number; image: string | null }> = {};
-  entries.forEach((e) => {
-    e.tracks.forEach((t) => {
-      if (!artistData[t.artist]) {
-        artistData[t.artist] = { count: 0, image: t.albumCover };
-      }
-      artistData[t.artist].count++;
-    });
+  // топ артисти зі Spotify
+  const userWithSpotify = await prisma.user.findUnique({
+    where: { email: session.user?.email ?? '' },
+    select: { id: true, spotifyAccessToken: true },
   });
-  const topArtists = Object.entries(artistData)
-    .sort((a, b) => b[1].count - a[1].count)
-    .slice(0, 5);
+
+  let topArtists: { id: string; name: string; image: string | null }[] = [];
+
+  if (userWithSpotify?.spotifyAccessToken) {
+    const { getValidSpotifyToken } = await import('@/lib/spotify');
+    const token = await getValidSpotifyToken(userWithSpotify.id);
+    if (token) {
+      const res = await fetch(
+        'https://api.spotify.com/v1/me/top/artists?limit=5&time_range=short_term',
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      const data = await res.json();
+      if (data.items) {
+        topArtists = data.items.map(
+          (a: { id: string; name: string; images: { url: string }[] }) => ({
+            id: a.id,
+            name: a.name,
+            image: a.images?.[1]?.url ?? a.images?.[0]?.url ?? null,
+          }),
+        );
+      }
+    }
+  }
 
   // настрій по днях тижня
   const dayMoods: Record<string, number[]> = {};
@@ -134,18 +148,18 @@ export default async function InsightsPage() {
                 Top artists — all time
               </div>
               <div className="flex flex-col gap-2">
-                {topArtists.map(([name, data], i) => (
+                {topArtists.map((a, i) => (
                   <div
-                    key={name}
+                    key={a.id}
                     className="flex items-center gap-4 py-3 border-b border-line last:border-0"
                   >
                     <span className="font-display text-xl font-light text-text-dim w-7">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    {data.image ? (
+                    {a.image ? (
                       <Image
-                        src={data.image}
-                        alt={name}
+                        src={a.image}
+                        alt={a.name}
                         width={40}
                         height={40}
                         className="rounded-full flex-shrink-0 object-cover"
@@ -153,8 +167,7 @@ export default async function InsightsPage() {
                     ) : (
                       <div className="w-10 h-10 rounded-full bg-surface-2 border border-line flex-shrink-0" />
                     )}
-                    <span className="flex-1 text-sm font-medium">{name}</span>
-                    <span className="font-mono text-xs text-text-dim">{data.count} tracks</span>
+                    <span className="flex-1 text-sm font-medium">{a.name}</span>
                   </div>
                 ))}
               </div>

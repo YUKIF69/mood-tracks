@@ -2,9 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 
-const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL!,
-});
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
 export async function GET(req: NextRequest) {
@@ -33,9 +31,18 @@ export async function GET(req: NextRequest) {
   const tokens = await tokenRes.json();
 
   if (!tokens.access_token) {
-    console.error('Spotify token error:', tokens);
     return NextResponse.redirect(new URL('/', req.url));
   }
+
+  // тягнемо профіль зі Spotify
+  const profileRes = await fetch('https://api.spotify.com/v1/me', {
+    headers: { Authorization: `Bearer ${tokens.access_token}` },
+  });
+
+  const profile = await profileRes.json();
+  console.log('FULL Spotify profile:', JSON.stringify(profile, null, 2)); // ← ось тут
+  const spotifyImage = profile.images?.[0]?.url ?? null;
+  console.log('Spotify image:', spotifyImage);
 
   await prisma.user.update({
     where: { email },
@@ -43,8 +50,9 @@ export async function GET(req: NextRequest) {
       spotifyAccessToken: tokens.access_token,
       spotifyRefreshToken: tokens.refresh_token,
       spotifyTokenExpiry: new Date(Date.now() + tokens.expires_in * 1000),
+      image: spotifyImage ?? undefined,
     },
   });
 
-  return NextResponse.redirect('http://localhost:3000');
+  return NextResponse.redirect(new URL('/', req.url));
 }

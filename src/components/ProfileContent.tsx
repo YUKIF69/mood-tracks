@@ -75,12 +75,13 @@ export default function ProfileContent({ user, session }: { user: User; session:
       <div className="flex items-end gap-8 mb-12 pb-8 border-b border-line">
         <div className="relative group w-28 h-28 flex-shrink-0">
           <div className="w-28 h-28 rounded-full overflow-hidden border-2 border-line">
-            {session.user?.image ? (
+            {user.image ? (
               <Image
-                src={session.user.image}
+                src={user.image}
                 alt={user.name ?? ''}
                 width={112}
                 height={112}
+                priority
                 className="object-cover w-full h-full"
               />
             ) : (
@@ -131,7 +132,10 @@ export default function ProfileContent({ user, session }: { user: User; session:
             </div>
             <div className="flex flex-col gap-3">
               {artists.map((a, i) => (
-                <div key={a.id} className="flex items-center gap-4">
+                <div
+                  key={a.id}
+                  className={`flex items-center gap-4 h-16 overflow-hidden ${i !== artists.length - 1 ? 'border-b border-line' : ''}`}
+                >
                   <span className="font-display text-xl font-light text-text-dim w-7">
                     {String(i + 1).padStart(2, '0')}
                   </span>
@@ -139,9 +143,9 @@ export default function ProfileContent({ user, session }: { user: User; session:
                     <Image
                       src={a.images[0].url}
                       alt={a.name}
-                      width={44}
-                      height={44}
-                      className="rounded-full flex-shrink-0 object-cover"
+                      width={40}
+                      height={40}
+                      className="rounded-full flex-shrink-0 object-cover w-10 h-10"
                     />
                   ) : (
                     <div className="w-11 h-11 rounded-full bg-surface-2 border border-line flex-shrink-0" />
@@ -164,7 +168,10 @@ export default function ProfileContent({ user, session }: { user: User; session:
             </div>
             <div className="flex flex-col gap-3">
               {tracks.map((t, i) => (
-                <div key={t.id} className="flex items-center gap-4">
+                <div
+                  key={t.id}
+                  className={`flex items-center gap-4 h-16 ${i !== tracks.length - 1 ? 'border-b border-line' : ''}`}
+                >
                   <span className="font-display text-xl font-light text-text-dim w-7">
                     {String(i + 1).padStart(2, '0')}
                   </span>
@@ -172,9 +179,9 @@ export default function ProfileContent({ user, session }: { user: User; session:
                     <Image
                       src={t.album.images[1].url}
                       alt={t.name}
-                      width={44}
-                      height={44}
-                      className="rounded-lg flex-shrink-0 object-cover"
+                      width={40}
+                      height={40}
+                      className="rounded-full flex-shrink-0 object-cover w-10 h-10"
                     />
                   ) : (
                     <div className="w-11 h-11 rounded-lg bg-surface-2 border border-line flex-shrink-0" />
