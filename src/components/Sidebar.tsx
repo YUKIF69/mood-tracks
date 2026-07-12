@@ -24,7 +24,7 @@ export default async function Sidebar({
   const spotifyConnected = !!dbUser?.spotifyAccessToken;
 
   return (
-    <aside className="w-[220px] flex-shrink-0 border-r border-line p-5 flex flex-col sticky top-0 h-screen">
+    <aside className="hidden md:flex w-[220px] flex-shrink-0 border-r border-line p-5 flex flex-col sticky top-0 h-screen">
       <div className="flex items-center gap-2.5 font-mono text-[13px] uppercase tracking-wider mb-12">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
           <path

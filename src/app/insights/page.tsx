@@ -86,7 +86,7 @@ export default async function InsightsPage() {
   return (
     <div className="flex min-h-screen bg-background text-foreground">
       <Sidebar activePage="insights" />
-      <main className="flex-1 p-9 max-w-[1180px]">
+      <main className="flex-1 p-5 md:p-9 max-w-[1180px]">
         <div className="mb-10">
           <h1 className="font-display font-light text-3xl tracking-tight mb-2">Insights</h1>
           <p className="text-sm text-text-mid">Patterns from your {totalEntries} entries</p>

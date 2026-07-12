@@ -30,7 +30,7 @@ export default async function HistoryPage() {
       {/* Sidebar — той самий що в page.tsx */}
       <Sidebar activePage="history" />
 
-      <main className="flex-1 p-9">
+      <main className="flex-1 p-5 md:p-9">
         <div className="mb-8">
           <h1 className="font-display font-light text-3xl tracking-tight mb-2">History</h1>
           <p className="text-sm text-text-mid">{entries.length} entries total</p>
