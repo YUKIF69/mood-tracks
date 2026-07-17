@@ -1,8 +1,15 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import BottomProfileMenu from './BottomProfileMenu';
 
-export default function BottomNav() {
+interface Props {
+  name: string | null | undefined;
+  image: string | null | undefined;
+  spotifyConnected: boolean;
+}
+
+export default function BottomNavClient({ name, image, spotifyConnected }: Props) {
   const pathname = usePathname();
 
   const items = [
@@ -45,40 +52,27 @@ export default function BottomNav() {
         </svg>
       ),
     },
-    {
-      href: '/profile',
-      label: 'Profile',
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor">
-          <circle cx="8" cy="5.5" r="2.5" strokeWidth="1.4" />
-          <path
-            d="M2.5 13.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5"
-            strokeWidth="1.4"
-            strokeLinecap="round"
-          />
-        </svg>
-      ),
-    },
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-surface border-t border-line z-50 md:hidden">
-      <div className="flex items-center justify-around px-2 py-2 pb-safe">
+    <nav className="fixed bottom-0 left-0 right-0 bg-surface border-t border-line z-50 md:hidden overflow-visible">
+      <div className="flex items-center justify-around px-2 py-2 overflow-visible">
         {items.map((item) => {
           const active = pathname === item.href;
           return (
             <a
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors ${
+              className={`flex flex-col items-center gap-1 px-2 py-2 rounded-lg transition-colors ${
                 active ? 'text-accent' : 'text-text-dim'
               }`}
             >
               {item.icon}
-              <span className="font-mono text-[10px] uppercase tracking-wider">{item.label}</span>
+              <span className="font-mono text-[10px]">{item.label}</span>
             </a>
           );
         })}
+        <BottomProfileMenu name={name} image={image} spotifyConnected={spotifyConnected} />
       </div>
     </nav>
   );

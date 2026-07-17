@@ -173,7 +173,7 @@ export default function RecentEntries() {
   }, []);
 
   return (
-    <div className="bg-surface border border-line rounded-2xl p-7">
+    <div className="bg-surface border border-line rounded-2xl p-4 md:p-7">
       <div className="flex justify-between items-baseline mb-6">
         <span className="font-mono text-[11px] uppercase tracking-wider text-text-dim">
           Recent entries

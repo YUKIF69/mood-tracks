@@ -73,9 +73,12 @@ export default function ProfileContent({ user, session }: { user: User; session:
   return (
     <div>
       {/* Profile header */}
-      <div className="flex items-center md:items-end gap-5 md:gap-8 mb-8 md:mb-12 pb-6 md:pb-8 border-b border-line">
-        <div className="relative group w-20 h-20 md:w-28 md:h-28 flex-shrink-0">
-          <div className="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-line">
+      <div className="flex items-center sm:items-end gap-5 sm:gap-8 mb-8 sm:mb-12 pb-6 sm:pb-8 border-b border-line">
+        <div className="relative group w-20 h-20 sm:w-28 sm:h-28 flex-shrink-0">
+          <div
+            className="w-20 h-20 
+          md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-line"
+          >
             {user.image ? (
               <Image
                 src={user.image}
@@ -86,29 +89,30 @@ export default function ProfileContent({ user, session }: { user: User; session:
                 className="object-cover w-full h-full"
               />
             ) : (
-              <div className="w-full h-full bg-surface-2 flex items-center justify-center font-display text-3xl md:text-4xl font-light text-text-mid">
+              <div className="w-full h-full bg-surface-2 flex items-center justify-center font-display text-3xl sm:text-4xl font-light text-text-mid">
                 {user.name?.[0] ?? 'U'}
               </div>
             )}
           </div>
         </div>
+
         <div className="min-w-0">
-          <div className="font-mono text-[11px] uppercase tracking-wider text-text-dim mb-1 md:mb-2">
+          <div className="font-mono text-[11px] uppercase tracking-wider text-text-dim mb-1 sm:mb-2">
             Profile
           </div>
-          <h1 className="font-display font-light text-3xl md:text-5xl tracking-tight mb-2 md:mb-3 truncate">
+          <h1 className="font-display font-light text-3xl sm:text-5xl tracking-tight mb-2 sm:mb-3 truncate">
             {user.name}
           </h1>
-          <div className="flex flex-wrap items-center gap-2 md:gap-4 font-mono text-xs text-text-dim">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4 font-mono text-xs text-text-dim">
             <span>{user._count.moodEntries} mood entries</span>
-            <span className="hidden md:inline">·</span>
+            <span className="hidden sm:inline">·</span>
             <span>Since {memberSince}</span>
           </div>
         </div>
       </div>
 
       {/* Time range selector */}
-      <div className="flex gap-2 mb-6 md:mb-8">
+      <div className="flex gap-2 mb-6 sm:mb-8">
         {(Object.keys(timeRangeLabels) as TimeRange[]).map((range) => (
           <button
             key={range}
@@ -127,14 +131,14 @@ export default function ProfileContent({ user, session }: { user: User; session:
       {loading ? (
         <div className="text-sm text-text-dim font-mono">Loading...</div>
       ) : (
-        <div className="flex flex-col gap-10 md:gap-12">
+        <div className="flex flex-col gap-10 sm:gap-12 mb-16 sm:mb-0">
           {/* Top artists */}
           <div>
-            <div className="font-mono text-[11px] md:text-[14px] uppercase tracking-wider text-text-dim mb-4 md:mb-6">
+            <div className="font-mono text-[11px] sm:text-[14px] uppercase tracking-wider text-text-dim mb-4 sm:mb-6">
               Top artists
             </div>
             {/* мобільний — список, десктоп — сітка */}
-            <div className="flex flex-col gap-3 md:hidden">
+            <div className="flex flex-col gap-3 sm:hidden">
               {artists.map((a, i) => (
                 <div key={a.id} className="flex items-center gap-3">
                   <span className="font-mono text-sm text-text-dim w-5 text-right flex-shrink-0">
@@ -144,12 +148,12 @@ export default function ProfileContent({ user, session }: { user: User; session:
                     <Image
                       src={a.images[0].url}
                       alt={a.name}
-                      width={44}
-                      height={44}
-                      className="rounded-full object-cover w-11 h-11 flex-shrink-0"
+                      width={48}
+                      height={48}
+                      className="rounded-full object-cover w-16 h-16 flex-shrink-0"
                     />
                   ) : (
-                    <div className="w-11 h-11 rounded-full bg-surface-2 border border-line flex-shrink-0" />
+                    <div className="w-16 h-16 rounded-full bg-surface-2 border border-line flex-shrink-0" />
                   )}
                   <div className="min-w-0">
                     <div className="text-sm font-medium truncate">{a.name}</div>
@@ -160,7 +164,7 @@ export default function ProfileContent({ user, session }: { user: User; session:
                 </div>
               ))}
             </div>
-            <div className="hidden md:grid grid-cols-5 gap-4">
+            <div className="hidden sm:grid grid-cols-5 gap-4">
               {artists.map((a) => (
                 <div
                   key={a.id}
@@ -188,11 +192,11 @@ export default function ProfileContent({ user, session }: { user: User; session:
 
           {/* Top tracks */}
           <div>
-            <div className="font-mono text-[11px] md:text-[14px] uppercase tracking-wider text-text-dim mb-4 md:mb-6">
+            <div className="font-mono text-[11px] sm:text-[14px] uppercase tracking-wider text-text-dim mb-4 sm:mb-6">
               Top tracks
             </div>
             {/* мобільний — список, десктоп — сітка */}
-            <div className="flex flex-col gap-3 md:hidden">
+            <div className="flex flex-col gap-3 sm:hidden">
               {tracks.map((t, i) => (
                 <div key={t.id} className="flex items-center gap-3">
                   <span className="font-mono text-sm text-text-dim w-5 text-right flex-shrink-0">
@@ -202,12 +206,12 @@ export default function ProfileContent({ user, session }: { user: User; session:
                     <Image
                       src={t.album.images[0].url}
                       alt={t.name}
-                      width={44}
-                      height={44}
-                      className="rounded-lg object-cover w-11 h-11 flex-shrink-0"
+                      width={48}
+                      height={48}
+                      className="rounded-lg object-cover w-16 h-16 flex-shrink-0"
                     />
                   ) : (
-                    <div className="w-11 h-11 rounded-lg bg-surface-2 border border-line flex-shrink-0" />
+                    <div className="w-16 h-16 rounded-lg bg-surface-2 border border-line flex-shrink-0" />
                   )}
                   <div className="min-w-0">
                     <div className="text-sm font-medium truncate">{t.name}</div>
@@ -218,7 +222,7 @@ export default function ProfileContent({ user, session }: { user: User; session:
                 </div>
               ))}
             </div>
-            <div className="hidden md:grid grid-cols-5 gap-4">
+            <div className="hidden sm:grid grid-cols-5 gap-4">
               {tracks.map((t) => (
                 <div key={t.id} className="flex flex-col gap-3 max-w-[142px] mx-auto w-full">
                   {t.album.images?.[0]?.url ? (

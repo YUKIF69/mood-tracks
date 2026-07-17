@@ -34,7 +34,7 @@ export default function MoodCalendar() {
   }, []);
 
   return (
-    <div className="bg-surface border border-line rounded-2xl p-7">
+    <div className="bg-surface border border-line rounded-2xl p-4 md:p-7">
       <div className="flex justify-between items-baseline mb-6">
         <span className="font-mono text-[11px] uppercase tracking-wider text-text-dim">
           Mood calendar
@@ -46,11 +46,11 @@ export default function MoodCalendar() {
         <div className="text-sm text-text-dim font-mono py-4">Loading...</div>
       ) : (
         <>
-          <div className="grid grid-cols-7 gap-1.5">
+          <div className="grid grid-cols-7 gap-1">
             {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d, i) => (
               <div
                 key={i}
-                className="font-mono text-[10px] uppercase text-text-dim text-center pb-1"
+                className="font-mono text-[9px] uppercase text-text-dim text-center pb-1"
               >
                 {d}
               </div>
@@ -70,7 +70,7 @@ export default function MoodCalendar() {
               return (
                 <div
                   key={day}
-                  className={`aspect-square rounded-md border flex items-center justify-center font-mono text-[10px] transition-colors ${
+                  className={`aspect-square rounded-sm border flex items-center justify-center font-mono text-[9px] transition-colors ${
                     mood ? moodClass(mood) : 'bg-surface-2 border-line text-text-dim'
                   } ${isToday ? 'ring-1 ring-accent' : ''}`}
                 >

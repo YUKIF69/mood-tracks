@@ -1,5 +1,16 @@
 @import 'tailwindcss';
 
+* {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.recharts-wrapper,
+.recharts-surface,
+.recharts-wrapper * {
+  max-width: none;
+}
+
 :root {
   --background: #0a0a0c;
   --surface: #141316;
@@ -14,6 +25,8 @@
 }
 
 @theme inline {
+  --breakpoint-xs: 375px;
+
   --color-background: var(--background);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);

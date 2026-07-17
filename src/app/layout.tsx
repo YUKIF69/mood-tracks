@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Fraunces, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
-import BottomNav from '@/components/BottomNav';
+import BottomNavWrapper from '@/components/BottomNavWrapper';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -30,6 +30,11 @@ export const metadata: Metadata = {
   description: 'Track your mood and music',
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -42,7 +47,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         {children}
-        <BottomNav />
+        <BottomNavWrapper />
       </body>
     </html>
   );

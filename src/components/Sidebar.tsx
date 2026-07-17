@@ -3,6 +3,7 @@ import { auth } from '@/auth';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import ProfileMenu from './ProfileMenu';
+import SpotifyMenu from './SpotifyMenu';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -24,7 +25,7 @@ export default async function Sidebar({
   const spotifyConnected = !!dbUser?.spotifyAccessToken;
 
   return (
-    <aside className="hidden md:flex w-[220px] flex-shrink-0 border-r border-line p-5 flex flex-col sticky top-0 h-screen">
+    <aside className="hidden md:flex w-[220px] flex-shrink-0 border-r border-line p-5 flex-col sticky top-0 h-screen">
       <div className="flex items-center gap-2.5 font-mono text-[13px] uppercase tracking-wider mb-12">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
           <path
@@ -37,8 +38,7 @@ export default async function Sidebar({
         </svg>
         MoodTracks
       </div>
-
-      <nav className="mb-3">
+      <nav className="mb-3 flex-shrink-0">
         <div className="font-mono text-[11px] uppercase tracking-wider text-text-dim mb-3">
           Menu
         </div>
@@ -112,40 +112,13 @@ export default async function Sidebar({
           Insights
         </Link>
       </nav>
-
-      <div className="mb-4">
+      <div className="mb-4 flex-shrink-0">
         <div className="font-mono text-[11px] uppercase tracking-wider text-text-dim mb-3">
           Integrations
         </div>
-        {spotifyConnected ? (
-          <div className="flex items-center gap-3 text-sm px-2.5 py-2.5 rounded-lg">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="#1ED760">
-              <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 01-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 11-.277-1.215c3.809-.87 7.077-.496 9.712 1.115a.622.622 0 01.207.857zm1.223-2.722a.779.779 0 01-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.779.779 0 01-.972-.519.78.78 0 01.52-.972c3.632-1.102 8.147-.568 11.233 1.328a.779.779 0 01.256 1.072zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.935.935 0 11-.543-1.79c3.532-1.072 9.404-.865 13.115 1.337a.935.935 0 01-.955 1.61z" />
-            </svg>
-            <div className="flex-1 min-w-0">
-              <div className="text-[#1ED760] text-xs font-mono">Spotify connected</div>
-              <a
-                href="/api/spotify/disconnect"
-                className="text-[11px] font-mono text-text-dim hover:text-foreground"
-              >
-                disconnect
-              </a>
-            </div>
-          </div>
-        ) : (
-          <a
-            href="/api/spotify/connect"
-            className="flex items-center gap-3 text-sm px-2.5 py-2.5 rounded-lg text-text-mid hover:bg-surface hover:text-foreground"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 01-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 11-.277-1.215c3.809-.87 7.077-.496 9.712 1.115a.622.622 0 01.207.857zm1.223-2.722a.779.779 0 01-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.779.779 0 01-.972-.519.78.78 0 01.52-.972c3.632-1.102 8.147-.568 11.233 1.328a.779.779 0 01.256 1.072zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.935.935 0 11-.543-1.79c3.532-1.072 9.404-.865 13.115 1.337a.935.935 0 01-.955 1.61z" />
-            </svg>
-            Connect Spotify
-          </a>
-        )}
+        {spotifyConnected ? <SpotifyMenu /> : <a href="/api/spotify/connect">Connect Spotify</a>}
       </div>
-
-      <div className="mt-auto pt-5 border-t border-line">
+      <div className="mt-auto pt-5 border-t border-line flex-shrink-0">
         <ProfileMenu name={session?.user?.name} image={session?.user?.image} />
       </div>
     </aside>

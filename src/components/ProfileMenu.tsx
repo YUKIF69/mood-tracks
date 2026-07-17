@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { signOut } from 'next-auth/react';
+import Image from 'next/image';
 
 interface ProfileMenuProps {
   name: string | null | undefined;
@@ -27,10 +28,12 @@ export default function ProfileMenu({ name, image }: ProfileMenuProps) {
       <button onClick={() => setOpen(!open)} className="flex items-center gap-2.5 w-full text-left">
         <div className="w-8 h-8 rounded-full bg-surface-2 border border-line flex items-center justify-center text-xs text-text-mid flex-shrink-0 overflow-hidden">
           {image ? (
-            <img
+            <Image
               src={image}
               alt={name ?? 'User'}
-              className="w-full h-full object-cover cursor-pointer"
+              width={32}
+              height={32}
+              className="w-8 h-8 object-cover cursor-pointer"
             />
           ) : (
             (name?.[0] ?? 'U')

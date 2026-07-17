@@ -103,7 +103,7 @@ export default async function Home() {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-[1.6fr_1fr] gap-4 md:gap-5 mb-4 md:mb-5">
+        <div className="grid grid-cols-1 md:grid-cols-[1.6fr_1fr] gap-4 md:gap-5 mb-4 md:mb-5 items-start">
           <MoodTrendChart />
           <MoodCalendar />
         </div>

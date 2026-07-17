@@ -26,7 +26,7 @@ export default function MoodTrendChart() {
   }, []);
 
   return (
-    <div className="bg-surface border border-line rounded-2xl px-7 pt-7 pb-5">
+    <div className="bg-surface border border-line rounded-2xl p-5 md:p-7 overflow-hidden md:h-full">
       {/* <div className="flex flex-col justify-center h-full"> */}
       <div className="flex justify-between items-baseline mb-6">
         <span className="font-mono text-[11px] uppercase tracking-wider text-text-dim">
@@ -44,15 +44,18 @@ export default function MoodTrendChart() {
           Log more moods to see your trend
         </div>
       ) : (
-        <div className="h-55">
+        <div className="h-50 md:h-[50%] xl:h-[60%] 2xl:h-[70%]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data}>
               <YAxis domain={[1, 5]} hide />
               <XAxis
                 dataKey="day"
+                type="category"
                 tick={{ fill: '#6F6A63', fontSize: 11, fontFamily: 'IBM Plex Mono' }}
                 axisLine={false}
                 tickLine={false}
+                interval={0}
+                padding={{ left: 10, right: 10 }}
               />
               <Tooltip
                 contentStyle={{
