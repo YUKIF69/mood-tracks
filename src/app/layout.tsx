@@ -28,6 +28,16 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: 'MoodTracks',
   description: 'Track your mood and music',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'MoodTracks',
+    startupImage: '/icon-192x192.png',
+  },
+  icons: {
+    apple: '/icon-192x192.png',
+  },
 };
 
 export const viewport = {

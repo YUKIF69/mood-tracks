@@ -44,7 +44,7 @@ export default function MoodTrendChart() {
           Log more moods to see your trend
         </div>
       ) : (
-        <div className="h-50 md:h-[50%] xl:h-[60%] 2xl:h-[70%]">
+        <div className="h-50 md:h-[50%] xl:h-[60%] 2xl:h-[68%]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data}>
               <YAxis domain={[1, 5]} hide />
