@@ -87,7 +87,7 @@ export default async function Home() {
             {/* AI Insight */}
             <div className="bg-surface border border-line rounded-2xl p-7 flex flex-col relative overflow-hidden flex-1">
               <div className="absolute -top-1/4 -right-1/4 w-56 h-56 rounded-full bg-accent/[0.07] blur-3xl" />
-              <div className="font-mono text-[11px] uppercase tracking-wider text-accent mb-4">
+              <div className="font-mono text-[13px] uppercase tracking-wider text-accent mb-4">
                 ✦ Latest insight
               </div>
               <div className="font-display font-light text-2xl leading-snug mb-3">
@@ -97,7 +97,7 @@ export default async function Home() {
                 Your mood runs about 30% higher on Saturdays and Sundays — and your library shifts
                 toward calmer, more melodic tracks on those same days.
               </p>
-              <button className="font-mono text-xs text-text-dim underline underline-offset-4 hover:text-accent text-left">
+              <button className="font-mono text-[13px] text-text-dim underline underline-offset-4 hover:text-accent text-left cursor-pointer transition-colors duration-250">
                 Generate new insight →
               </button>
             </div>

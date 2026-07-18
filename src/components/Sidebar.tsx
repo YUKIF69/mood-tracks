@@ -39,7 +39,7 @@ export default async function Sidebar({
         MoodTracks
       </div>
       <nav className="mb-3 flex-shrink-0">
-        <div className="font-mono text-[11px] uppercase tracking-wider text-text-dim mb-3">
+        <div className="font-mono text-[13px] uppercase tracking-wider text-text-dim mb-3">
           Menu
         </div>
         <Link
@@ -113,7 +113,7 @@ export default async function Sidebar({
         </Link>
       </nav>
       <div className="mb-4 flex-shrink-0">
-        <div className="font-mono text-[11px] uppercase tracking-wider text-text-dim mb-3">
+        <div className="font-mono text-[13px] uppercase tracking-wider text-text-dim mb-3">
           Integrations
         </div>
         {spotifyConnected ? <SpotifyMenu /> : <a href="/api/spotify/connect">Connect Spotify</a>}

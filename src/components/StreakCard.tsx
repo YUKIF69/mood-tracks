@@ -21,7 +21,7 @@ export default function StreakCard() {
     <div className="bg-surface border border-line rounded-2xl p-7 flex items-center gap-6">
       <div className="text-5xl flex-shrink-0">🔥</div>
       <div className="flex-1">
-        <div className="font-mono text-[11px] uppercase tracking-wider text-text-dim mb-1">
+        <div className="font-mono text-[13px] uppercase tracking-wider text-text-dim mb-1">
           Current streak
         </div>
         {loading ? (

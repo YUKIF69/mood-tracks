@@ -123,7 +123,7 @@ function EntryRow({ e }: { e: Entry }) {
 
       {expanded && (
         <div className="border-t border-line px-4 pb-4 pt-3">
-          <div className="font-mono text-[11px] uppercase tracking-wider text-text-dim mb-3">
+          <div className="font-mono text-[12px] uppercase tracking-wider text-text-dim mb-3">
             All tracks — {e.tracks.length}
           </div>
           <div className="flex flex-col gap-2">
@@ -133,8 +133,8 @@ function EntryRow({ e }: { e: Entry }) {
                   <Image
                     src={t.albumCover}
                     alt={t.title}
-                    width={32}
-                    height={32}
+                    width={44}
+                    height={44}
                     className="rounded-md flex-shrink-0 object-cover"
                   />
                 ) : (
@@ -175,12 +175,12 @@ export default function RecentEntries() {
   return (
     <div className="bg-surface border border-line rounded-2xl p-4 md:p-7">
       <div className="flex justify-between items-baseline mb-6">
-        <span className="font-mono text-[11px] uppercase tracking-wider text-text-dim">
+        <span className="font-mono text-[13px] uppercase tracking-wider text-text-dim">
           Recent entries
         </span>
         <a
           href="/history"
-          className="font-mono text-xs text-text-dim underline underline-offset-4 hover:text-accent"
+          className="font-mono text-xs text-text-dim underline underline-offset-4 hover:text-accent transition-colors duration-250"
         >
           see all →
         </a>

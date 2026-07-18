@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import Image from 'next/image';
 import Sidebar from '@/components/Sidebar';
+import MoodCorrelations from '@/components/MoodCorrelations';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -116,66 +117,37 @@ export default async function InsightsPage() {
             </div>
 
             {/* Mood by day of week */}
-            <div className="bg-surface border border-line rounded-2xl p-4 md:p-7 mb-4 md:mb-5">
-              <div className="font-mono text-[11px] uppercase tracking-wider text-text-dim mb-4 md:mb-6">
+            <div className="bg-surface border border-line rounded-2xl p-4 md:p-7 mb-4 md:mb-5 ">
+              <div className="font-mono text-[13px] uppercase tracking-wider text-text-dim mb-4 md:mb-6">
                 Avg mood by day of week
               </div>
-              <div className="flex items-end gap-1.5 md:gap-3" style={{ height: '100px' }}>
+              <div className="flex items-end gap-1.5 md:gap-3" style={{ height: '130px' }}>
                 {avgByDay.map((d) => (
                   <div
                     key={d.day}
                     className="flex-1 flex flex-col items-center gap-1 md:gap-2 h-full justify-end"
                   >
-                    <div className="font-mono text-[9px] md:text-xs text-text-dim">
+                    <div className="font-mono text-[9px] md:text-[13px] text-text-dim">
                       {d.avg ?? '—'}
                     </div>
                     <div
                       className="w-full rounded-md transition-all"
                       style={{
-                        height: d.avg ? `${(d.avg / 5) * 65}px` : '3px',
+                        height: d.avg ? `${(d.avg / 4) * 65}px` : '3px',
                         background: d.avg
                           ? `rgba(212,255,110,${0.3 + (d.avg / 5) * 0.7})`
                           : 'var(--line)',
                       }}
                     />
-                    <div className="font-mono text-[9px] md:text-[10px] text-text-dim">{d.day}</div>
+                    <div className="font-mono text-[10px] md:text-[12px] text-text-dim">
+                      {d.day}
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Top artists */}
-            {topArtists.length > 0 && (
-              <div className="bg-surface border border-line rounded-2xl p-4 md:p-7">
-                <div className="font-mono text-[11px] uppercase tracking-wider text-text-dim mb-4 md:mb-6">
-                  Top artists — all time
-                </div>
-                <div className="flex flex-col gap-1 md:gap-2">
-                  {topArtists.map((a, i) => (
-                    <div
-                      key={a.id}
-                      className="flex items-center gap-3 md:gap-4 py-2.5 md:py-3 border-b border-line last:border-0"
-                    >
-                      <span className="font-display text-lg md:text-xl font-light text-text-dim w-6 md:w-7">
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                      {a.image ? (
-                        <Image
-                          src={a.image}
-                          alt={a.name}
-                          width={36}
-                          height={36}
-                          className="rounded-full flex-shrink-0 object-cover w-9 h-9 md:w-10 md:h-10"
-                        />
-                      ) : (
-                        <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-surface-2 border border-line flex-shrink-0" />
-                      )}
-                      <span className="flex-1 text-sm font-medium truncate">{a.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            <MoodCorrelations />
           </>
         )}
       </main>

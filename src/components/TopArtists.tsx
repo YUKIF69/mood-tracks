@@ -26,12 +26,12 @@ export default function TopArtists() {
   return (
     <div className="bg-surface border border-line rounded-2xl p-4 md:p-7 flex flex-col">
       <div className="flex justify-between items-baseline mb-6">
-        <span className="font-mono text-[11px] uppercase tracking-wider text-text-dim">
+        <span className="font-mono text-[13px] uppercase tracking-wider text-text-dim">
           Top artists
         </span>
         <a
           href="/profile"
-          className="font-mono text-xs text-text-dim underline underline-offset-4 hover:text-accent"
+          className="font-mono text-xs text-text-dim underline underline-offset-4 hover:text-accent transition-colors duration-250"
         >
           see all →
         </a>
@@ -48,8 +48,8 @@ export default function TopArtists() {
                 <Image
                   src={a.image}
                   alt={a.name}
-                  width={48}
-                  height={48}
+                  width={56}
+                  height={56}
                   className="rounded-full flex-shrink-0 object-cover"
                 />
               ) : (

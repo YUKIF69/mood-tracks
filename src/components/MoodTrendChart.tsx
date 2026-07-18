@@ -29,10 +29,10 @@ export default function MoodTrendChart() {
     <div className="bg-surface border border-line rounded-2xl p-5 md:p-7 overflow-hidden md:h-full">
       {/* <div className="flex flex-col justify-center h-full"> */}
       <div className="flex justify-between items-baseline mb-6">
-        <span className="font-mono text-[11px] uppercase tracking-wider text-text-dim">
+        <span className="font-mono text-[13px] uppercase tracking-wider text-text-dim">
           Mood trend
         </span>
-        <span className="font-mono text-xs text-text-dim">last 7 days</span>
+        <span className="font-mono text-[13px] text-text-dim">last 7 days</span>
       </div>
 
       {loading ? (
@@ -51,7 +51,7 @@ export default function MoodTrendChart() {
               <XAxis
                 dataKey="day"
                 type="category"
-                tick={{ fill: '#6F6A63', fontSize: 11, fontFamily: 'IBM Plex Mono' }}
+                tick={{ fill: '#6F6A63', fontSize: 12, fontFamily: 'IBM Plex Mono' }}
                 axisLine={false}
                 tickLine={false}
                 interval={0}
@@ -63,7 +63,7 @@ export default function MoodTrendChart() {
                   border: '1px solid #232228',
                   borderRadius: '8px',
                   fontFamily: 'IBM Plex Mono',
-                  fontSize: '12px',
+                  fontSize: '13px',
                   color: '#E8E6E3',
                 }}
                 formatter={(value) => [value, 'mood']}

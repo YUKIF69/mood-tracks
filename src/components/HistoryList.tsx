@@ -72,8 +72,8 @@ function EntryRow({ e }: { e: Entry }) {
                     <Image
                       src={t.albumCover}
                       alt={t.title}
-                      width={40}
-                      height={40}
+                      width={44}
+                      height={44}
                       className="object-cover w-full h-full"
                     />
                   ) : (
@@ -136,8 +136,8 @@ function EntryRow({ e }: { e: Entry }) {
                   <Image
                     src={t.albumCover}
                     alt={t.title}
-                    width={32}
-                    height={32}
+                    width={42}
+                    height={42}
                     className="rounded-md flex-shrink-0 object-cover"
                   />
                 ) : (

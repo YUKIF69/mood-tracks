@@ -64,7 +64,7 @@ export default function MoodCard() {
   return (
     <div className="bg-surface border border-line rounded-2xl p-4 md:p-7">
       <div className="flex justify-between items-baseline mb-6">
-        <span className="font-mono text-[11px] uppercase tracking-wider text-text-dim">
+        <span className="font-mono text-[13px] uppercase tracking-wider text-text-dim">
           Mood today
         </span>
         <span className="font-mono text-xs text-text-dim">tap to log</span>

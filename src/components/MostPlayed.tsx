@@ -88,12 +88,12 @@ export default function MostPlayed() {
   return (
     <div className="bg-surface border border-line rounded-2xl p-4 md:p-7">
       <div className="flex justify-between items-baseline mb-4">
-        <span className="font-mono text-[11px] uppercase tracking-wider text-text-dim">
+        <span className="font-mono text-[13px] uppercase tracking-wider text-text-dim">
           Most played
         </span>
         <a
           href="/history"
-          className="font-mono text-xs text-text-dim underline underline-offset-4 hover:text-accent"
+          className="font-mono text-xs text-text-dim underline underline-offset-4 hover:text-accent transition-colors duration-250"
         >
           see all →
         </a>
@@ -103,7 +103,7 @@ export default function MostPlayed() {
           <button
             key={p}
             onClick={() => setPeriod(p)}
-            className={`font-mono text-[11px] px-2.5 py-1 rounded-md transition-colors ${
+            className={`font-mono text-[12px] px-2.5 py-1 rounded-md transition-colors ${
               period === p
                 ? 'bg-accent-dim text-accent border border-accent'
                 : 'text-text-dim border border-line hover:border-text-mid hover:text-foreground'
@@ -131,8 +131,8 @@ export default function MostPlayed() {
                 <Image
                   src={t.albumCover}
                   alt={t.name}
-                  width={48}
-                  height={48}
+                  width={52}
+                  height={52}
                   className="rounded-lg flex-shrink-0 object-cover"
                 />
               ) : (

@@ -36,10 +36,10 @@ export default function MoodCalendar() {
   return (
     <div className="bg-surface border border-line rounded-2xl p-4 md:p-7">
       <div className="flex justify-between items-baseline mb-6">
-        <span className="font-mono text-[11px] uppercase tracking-wider text-text-dim">
+        <span className="font-mono text-[13px] uppercase tracking-wider text-text-dim">
           Mood calendar
         </span>
-        <span className="font-mono text-xs text-text-dim">{data?.monthName ?? ''}</span>
+        <span className="font-mono text-[13px] text-text-dim">{data?.monthName ?? ''}</span>
       </div>
 
       {loading ? (
@@ -50,7 +50,7 @@ export default function MoodCalendar() {
             {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d, i) => (
               <div
                 key={i}
-                className="font-mono text-[9px] uppercase text-text-dim text-center pb-1"
+                className="font-mono text-[11px] uppercase text-text-dim text-center pb-1"
               >
                 {d}
               </div>
@@ -80,7 +80,7 @@ export default function MoodCalendar() {
             })}
           </div>
 
-          <div className="flex items-center justify-end gap-1.5 mt-4 font-mono text-[11px] text-text-dim">
+          <div className="flex items-center justify-end gap-1.5 mt-4 font-mono text-[12px] text-text-dim">
             <span>low</span>
             <span className="w-3 h-3 rounded-[3px] border border-line bg-[rgba(201,123,99,0.35)]" />
             <span className="w-3 h-3 rounded-[3px] border border-line bg-[rgba(201,123,99,0.18)]" />
